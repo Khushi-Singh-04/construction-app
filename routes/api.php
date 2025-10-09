@@ -9,6 +9,8 @@ use App\Http\Controllers\API\HouseDetailController;
 use App\Http\Controllers\API\FolderController;
 use App\Http\Controllers\API\DocumentController;
 use App\Http\Controllers\API\IdeaBookController;
+use App\Http\Controllers\API\DailyProgressController;
+use App\Http\Controllers\API\DailyProgressWorkController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -59,4 +61,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/suggestions/{ideaBookTitle?}', [IdeaBookController::class, 'getSuggestions']);// get suggestions from backend
     Route::get('suggestion-details/{id}', [IdeaBookController::class, 'suggestionDetails']); // get user details whose img you are viewing
     Route::post('/idea-books/{id}/save-suggestions', [IdeaBookController::class, 'saveSuggestions']); // save idea from suggestions
+});
+
+Route::middleware('auth:api')->group(function () {
+    // Daily Progress routes
+    Route::get('/houses/{houseId}/daily-progress', [DailyProgressController::class, 'index']); // user view category list + cover img
+    Route::get('/houses/{houseId}/daily-progress/categories/{categoryId}', [DailyProgressController::class, 'show']); // list works of a category
+    Route::get('/daily-progress/works/{workId}/workers', [DailyProgressWorkController::class, 'listWorkers']); // list workers of a work
+    Route::get('/daily-progress/works/{workId}/workers/{workerId}', [DailyProgressWorkController::class, 'workerWorkDetails']); // details of work from a worker
 });
